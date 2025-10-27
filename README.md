@@ -1,134 +1,238 @@
-# Heart Disease Prediction using RapidMiner
+# Heart Disease Prediction
 
-## Project Overview
-This project analyzes heart disease dataset using RapidMiner to predict patient risk through two different methodologies: **K-Means Clustering** and **Decision Tree Classification**. The analysis helps identify patient segments and predict heart disease risk based on various health factors.
+A comprehensive machine learning analysis for heart disease prediction using K-Means clustering and Decision Tree classification. This project implements patient segmentation and disease prediction models to identify risk factors and patterns in cardiovascular health data.
 
-## Dataset Information
-- **Records**: 918 patient records
-- **Attributes**: 12 key health attributes
-  - Age, Sex, ChestPainType, RestingBP, Cholesterol
-  - FastingBS, RestingECG, MaxHR, ExerciseAngina
-  - Oldpeak, ST_Slope, HeartDisease (target)
+## Overview
 
-## Methodology
+This project analyzes a dataset of 918 patient records with 12 clinical attributes to:
+- Segment patients into risk clusters using unsupervised learning
+- Predict heart disease presence using supervised classification
+- Identify key features that contribute to cardiovascular disease
 
-### Part 1: Clustering Analysis (`heart_disease_model_Clustring.xml`)
+The analysis pipeline includes data preprocessing, feature engineering, model training, and comprehensive evaluation with multiple validation techniques.
 
-#### Data Preprocessing Pipeline:
-1. **Data Cleaning**
-   - Remove duplicate records
-   - Generate unique ID for each patient
-   - Handle missing values using average imputation for numerical attributes
-   
-2. **Feature Engineering**
-   - Convert numerical to binomial: FastingBS
-   - Transform nominal to numerical using dummy coding
-   - Normalize numerical features (Age, Cholesterol, MaxHR, Oldpeak, RestingBP)
-   - Range transformation (0-1 scaling)
+## Dataset
 
-3. **Clustering Process**
-   - **Parameter Optimization**: Loop through k-values (2-80) to find optimal number of clusters
-   - **K-Means Algorithm**: Applied with Euclidean distance measure
-   - **Final Clustering**: Selected k=12 clusters based on performance
-   - **Outlier Detection**: Filter clusters with ≤30 patients
-   - **Cluster Analysis**: Generate cluster statistics and patient counts
-
-#### Key Features:
-- Automated cluster optimization
-- Outlier detection and removal
-- Cluster performance evaluation using "Avg. within centroid distance"
-
-### Part 2: Decision Tree Classification (`heart_disease_model_tree.xml`)
-
-#### Data Preprocessing:
-1. **Missing Value Treatment**
-   - Replace missing values with average for numerical attributes
-   - Handle categorical variables appropriately
-
-2. **Feature Engineering**
-   - Convert numerical to binomial: FastingBS, HeartDisease
-   - Transform Sex to binomial (M/F)
-   - **Create Risk Categories**:
-     - Age_Group: Teen, Young Adult, Adult, Middle Age, Senior, Elderly
-     - Cholesterol_Level: Zero, Normal, Borderline, High
-     - MaxHR_Level: Low, Normal, High
-     - Oldpeak_Risk: Normal, Moderate, Severe
-     - RestingBP_Level: Normal, Elevated, High
-
-3. **Model Development**
-   - **Cross-Validation**: 10-fold cross-validation for robust evaluation
-   - **Train-Test Split**: 70%-30% split for independent validation
-   - **Decision Tree Parameters**:
-     - Criterion: Gain Ratio
-     - Max Depth: 10 (CV) / 7 (Split)
-     - Pruning: Applied with confidence 0.1/0.25
-     - Min leaf size: 5, Min split size: 4
-
-#### Evaluation Metrics:
-- **Cross-Validation**: Accuracy assessment
-- **Split Validation**: Accuracy, Classification Error, Precision, Recall
-
-## Technical Implementation
-
-### RapidMiner Operators Used:
-- **Data Processing**: Remove Duplicates, Replace Missing Values, Normalize
-- **Feature Engineering**: Generate Columns, Nominal to Numerical/Binomial
-- **Clustering**: K-Means, Cluster Distance Performance
-- **Classification**: Parallel Decision Tree, Cross Validation
-- **Evaluation**: Performance Classification, Apply Model
-
-### Key Parameters:
-- **Random Seed**: 2001 (for reproducibility)
-- **Clustering Distance**: Euclidean Distance
-- **Tree Criterion**: Gain Ratio (Gini index equivalent)
-- **Cross-Validation Folds**: 10
-
-## Results and Insights
-
-### Clustering Analysis:
-- Successfully segmented patients into 12 distinct clusters
-- Identified outlier clusters with small patient populations
-- Enabled patient risk stratification based on health factors
-
-### Decision Tree Classification:
-- Built interpretable models for heart disease prediction
-- Validated using both cross-validation and holdout methods
-- Generated actionable insights through categorical risk levels
+The dataset contains the following features:
+- **Age**: Patient age in years
+- **Sex**: M (Male) or F (Female)
+- **ChestPainType**: Type of chest pain (ATA, NAP, ASY, TA)
+- **RestingBP**: Resting blood pressure (mm Hg)
+- **Cholesterol**: Serum cholesterol (mg/dl)
+- **FastingBS**: Fasting blood sugar > 120 mg/dl (1 = true, 0 = false)
+- **RestingECG**: Resting electrocardiogram results
+- **MaxHR**: Maximum heart rate achieved
+- **ExerciseAngina**: Exercise induced angina (Y/N)
+- **Oldpeak**: ST depression induced by exercise
+- **ST_Slope**: Slope of peak exercise ST segment
+- **HeartDisease**: Target variable (1 = disease, 0 = no disease)
 
 ## Project Structure
+
 ```
 heart-disease-prediction/
-├── models/
-│   ├── heart_disease_model_Clustring.xml
-│   └── heart_disease_model_tree.xml
 ├── data/
-│   └── heart_failure.csv
-├── documentation/
-│   └── methodology.md
+│   └── heart.csv                    # Dataset
+├── results/                         # Generated analysis results
+│   ├── clustering_optimization.png
+│   ├── cluster_distribution.png
+│   ├── confusion_matrix.png
+│   ├── feature_importance.png
+│   ├── performance_metrics.png
+│   └── decision_tree.png
+├── preprocessing.py                 # Data preprocessing utilities
+├── clustering_analysis.py          # K-Means clustering implementation
+├── classification_analysis.py      # Decision tree classifier
+├── main.py                         # Main analysis pipeline
+├── requirements.txt                # Python dependencies
 └── README.md
 ```
 
-## Tools and Technologies
-- **RapidMiner Studio 11.0.001**
-- **Machine Learning Techniques**: K-Means Clustering, Decision Trees
-- **Validation Methods**: K-Fold Cross-Validation, Train-Test Split
-- **Data Processing**: Normalization, Missing Value Imputation, Feature Engineering
+## Installation
 
-## Key Achievements
-- **Comprehensive Analysis**: Implemented both unsupervised (clustering) and supervised (classification) approaches
-- **Robust Validation**: Multiple validation techniques ensure model reliability
-- **Feature Engineering**: Created meaningful categorical variables for better interpretation
-- **Scalable Methodology**: Automated parameter optimization for clustering
+### Prerequisites
+- Python 3.8 or higher
+- pip package manager
+
+### Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/heart-disease-prediction.git
+cd heart-disease-prediction
+```
+
+2. Install required packages:
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
-1. Load the dataset into RapidMiner Local Repository as "heart_failure"
-2. Import the XML process files
-3. Execute the clustering analysis for patient segmentation
-4. Run the decision tree process for classification and prediction
-5. Analyze results and model performance metrics
 
-## Future Enhancements
-- Integration of ensemble methods
-- Advanced feature selection techniques
-- Real-time prediction capabilities
-- Extended validation on external datasets
+Run the complete analysis pipeline:
+
+```bash
+python main.py
+```
+
+This will execute both clustering and classification analyses, generating all visualizations and result files in the `results/` directory.
+
+### Running Individual Analyses
+
+For clustering analysis only:
+```bash
+python clustering_analysis.py
+```
+
+For classification analysis only:
+```bash
+python classification_analysis.py
+```
+
+## Methodology
+
+### Part 1: Clustering Analysis
+
+The clustering analysis segments patients into distinct groups based on their health characteristics.
+
+**Process:**
+1. Data cleaning and duplicate removal
+2. Missing value imputation using mean/mode
+3. Feature encoding and normalization (0-1 scaling)
+4. K-Means optimization testing k=2 to k=15
+5. Model evaluation using silhouette score
+6. Cluster characterization and outlier detection
+
+**Results:**
+
+The optimal clustering configuration identified 2 distinct patient segments:
+
+| Cluster | Patient Count | Heart Disease Rate |
+|---------|---------------|-------------------|
+| 0       | 407           | 25.8%            |
+| 1       | 511           | 78.9%            |
+
+**Cluster Optimization:**
+
+![Clustering Optimization](results/clustering_optimization.png)
+
+The silhouette score analysis shows optimal separation at k=2, with a score of 0.315.
+
+**Cluster Distribution:**
+
+![Cluster Distribution](results/cluster_distribution.png)
+
+Cluster 1 represents a high-risk patient group with nearly 80% disease prevalence, while Cluster 0 shows lower risk characteristics.
+
+### Part 2: Decision Tree Classification
+
+The classification model predicts heart disease presence using a decision tree algorithm with comprehensive validation.
+
+**Process:**
+1. Data preprocessing and missing value handling
+2. Feature engineering: creation of risk categories
+   - Age groups: Teen, Young Adult, Adult, Middle Age, Senior, Elderly
+   - Cholesterol levels: Zero, Normal, Borderline, High
+   - MaxHR levels: Low, Normal, High
+   - Oldpeak risk: Normal, Moderate, Severe
+   - RestingBP levels: Normal, Elevated, High
+3. Model training with pruning (max_depth=7)
+4. 10-fold cross-validation
+5. Train-test split evaluation (70-30)
+
+**Performance Metrics:**
+
+| Metric | Score |
+|--------|-------|
+| Cross-Validation Accuracy | 79.50% (+/- 6.77%) |
+| Test Accuracy | 81.16% |
+| Precision | 87.97% |
+| Recall | 76.47% |
+| F1-Score | 81.82% |
+
+**Confusion Matrix:**
+
+![Confusion Matrix](results/confusion_matrix.png)
+
+The model demonstrates strong performance with high precision, correctly identifying positive cases while maintaining good recall.
+
+**Model Performance:**
+
+![Performance Metrics](results/performance_metrics.png)
+
+All key metrics exceed 75%, indicating robust predictive capability across different evaluation criteria.
+
+**Feature Importance:**
+
+![Feature Importance](results/feature_importance.png)
+
+The top contributing features are:
+1. **ST_Slope** (70.6%) - Dominant predictor
+2. **Cholesterol_Level** (11.1%)
+3. **MaxHR** (9.7%)
+4. **ChestPainType** (4.7%)
+5. **FastingBS** (3.9%)
+
+**Decision Tree Structure:**
+
+![Decision Tree](results/decision_tree.png)
+
+The tree structure reveals ST_Slope as the primary decision point, with subsequent splits based on cholesterol and heart rate characteristics.
+
+## Key Findings
+
+1. **Patient Segmentation**: Two distinct patient clusters were identified with significantly different disease prevalence rates (26% vs 79%)
+
+2. **Primary Risk Indicator**: ST_Slope dominates the prediction model, accounting for over 70% of the decision-making process
+
+3. **Model Robustness**: Cross-validation results (79.5%) align closely with test performance (81.2%), indicating good generalization
+
+4. **High Precision**: The model achieves 88% precision, making it reliable for positive disease predictions with low false positive rate
+
+5. **Feature Categories**: Engineered risk categories (cholesterol levels, age groups) contribute meaningfully to prediction accuracy
+
+## Technical Details
+
+**Libraries Used:**
+- pandas 2.1.4 - Data manipulation
+- numpy 1.26.3 - Numerical computations
+- scikit-learn 1.4.0 - Machine learning algorithms
+- matplotlib 3.8.2 - Visualization
+- seaborn 0.13.1 - Statistical plotting
+
+**Model Parameters:**
+
+*K-Means Clustering:*
+- Algorithm: K-Means with Euclidean distance
+- Initialization: k-means++ (10 runs)
+- Optimization range: k=2 to k=15
+- Final k: 2 (based on silhouette score)
+
+*Decision Tree Classifier:*
+- Criterion: Gini impurity
+- Max depth: 7
+- Min samples split: 4
+- Min samples leaf: 5
+- Pruning: ccp_alpha=0.01
+- Random state: 2001 (reproducibility)
+
+## Future Improvements
+
+- Implement ensemble methods (Random Forest, Gradient Boosting)
+- Feature selection using recursive elimination
+- Hyperparameter tuning with grid search
+- Integration of additional cardiovascular biomarkers
+- Development of web-based prediction interface
+- External dataset validation
+
+## Contributing
+
+Contributions are welcome. Please open an issue first to discuss proposed changes.
+
+## License
+
+This project is available under the MIT License.
+
+## Acknowledgments
+
+Dataset source: UCI Machine Learning Repository - Heart Disease Dataset
