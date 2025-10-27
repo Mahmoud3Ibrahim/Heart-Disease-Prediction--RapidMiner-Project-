@@ -160,7 +160,8 @@ class HeartDiseaseClassification:
             output_dir: Directory to save plots
         """
         sns.set_style("whitegrid")
-        plt.rcParams['figure.dpi'] = 100
+        plt.rcParams['figure.dpi'] = 150
+        plt.rcParams['savefig.dpi'] = 150
 
         # 1. Confusion Matrix
         fig, ax = plt.subplots(figsize=(8, 6))

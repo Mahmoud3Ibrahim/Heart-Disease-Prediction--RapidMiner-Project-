@@ -1,0 +1,17 @@
+Feature,Importance
+ST_Slope,0.7064644624428896
+Cholesterol_Level,0.11095400442954653
+MaxHR,0.09683706106419315
+ChestPainType,0.04698325218505451
+FastingBS,0.038761219878316065
+Sex,0.0
+RestingBP,0.0
+Age,0.0
+RestingECG,0.0
+Cholesterol,0.0
+Oldpeak,0.0
+ExerciseAngina,0.0
+Age_Group,0.0
+MaxHR_Level,0.0
+Oldpeak_Risk,0.0
+RestingBP_Level,0.0

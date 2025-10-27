@@ -158,7 +158,8 @@ class HeartDiseaseClusteringAnalysis:
         """
         # Set style
         sns.set_style("whitegrid")
-        plt.rcParams['figure.dpi'] = 100
+        plt.rcParams['figure.dpi'] = 150
+        plt.rcParams['savefig.dpi'] = 150
 
         # 1. Elbow curve and silhouette score
         fig, axes = plt.subplots(1, 2, figsize=(14, 5))
