@@ -32,9 +32,7 @@ wheels/
 *.swp
 *.swo
 
-# Results
-results/*.png
-results/*.csv
+# Results - keep visualizations for documentation
 !results/.gitkeep
 
 # OS
